@@ -21,6 +21,7 @@
 #ifndef IPV4_L3_PROTOCOL_H
 #define IPV4_L3_PROTOCOL_H
 
+
 #include <list>
 #include <map>
 #include <vector>
@@ -51,6 +52,7 @@ class Socket;
 class Ipv4RawSocketImpl;
 class IpL4Protocol;
 class Icmpv4L4Protocol;
+class Ipv4Netfilter;
 
 /**
  * \ingroup ipv4
@@ -101,7 +103,8 @@ public:
     DROP_BAD_CHECKSUM,   /**< Bad checksum */
     DROP_INTERFACE_DOWN,   /**< Interface is down so can not send packet */
     DROP_ROUTE_ERROR,   /**< Route error */
-    DROP_FRAGMENT_TIMEOUT /**< Fragment timeout exceeded */
+    DROP_FRAGMENT_TIMEOUT, /**< Fragment timeout exceeded */
+    DROP_NF_DROP
   };
 
   /**
@@ -114,6 +117,9 @@ public:
 
   void SetRoutingProtocol (Ptr<Ipv4RoutingProtocol> routingProtocol);
   Ptr<Ipv4RoutingProtocol> GetRoutingProtocol (void) const;
+
+  void SetNetfilter (Ptr<Ipv4Netfilter> netfilter);
+  Ptr<Ipv4Netfilter> GetNetfilter (void) const;
 
   Ptr<Socket> CreateRawSocket (void);
   void DeleteRawSocket (Ptr<Socket> socket);
@@ -489,6 +495,8 @@ private:
   TracedCallback<const Ipv4Header &, Ptr<const Packet>, DropReason, Ptr<Ipv4>, uint32_t> m_dropTrace;
 
   Ptr<Ipv4RoutingProtocol> m_routingProtocol; //!< Routing protocol associated with the stack
+
+  Ptr<Ipv4Netfilter> m_netfilter;
 
   SocketList m_sockets; //!< List of IPv4 raw sockets.
 
