@@ -262,7 +262,7 @@ public:
 
   uint32_t NetfilterNatPacket (Hooks_t hookNumber, Ptr<Packet> p);
 
-#endif 
+#endif
 
 private:
   NetfilterCallbackChain m_netfilterHooks[NF_INET_NUMHOOKS];

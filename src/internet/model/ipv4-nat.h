@@ -177,15 +177,15 @@ public:
   */
   uint16_t GetTranslatedPort () const;
 
-  uint16_t GetLocalPort() const;
+  uint16_t GetLocalPort () const;
 
 
 private:
   Ipv4Address m_localip;
   Ipv4Address m_globalip;
   uint16_t m_port;
- uint16_t m_localport;
- 
+  uint16_t m_localport;
+
 };
 
 /**
@@ -293,7 +293,7 @@ public:
    */
   void PrintTable (Ptr<OutputStreamWrapper> stream) const;
 
-  
+
 /**
    *\rekha paul
    * \brief Add the address pool for Dynamic NAT
@@ -302,8 +302,8 @@ public:
    * \third param for the upper limit of address to be added in Dynamic Nat Pool
    * \param Ipv4Mask the mask of the pool of network address given
    */
- void AddAddressPool(Ipv4Address,Ipv4Address,Ipv4Address,Ipv4Mask);
- 
+  void AddAddressPool (Ipv4Address,Ipv4Address,Ipv4Address,Ipv4Mask);
+
   /**
    * \brief Add the port pool for Dynamic NAT
    *
@@ -376,13 +376,13 @@ private:
   */
   Ipv4Address GetAddressPoolIp () const;
 
- /**
-  *\Generates Next GlobalIp For Dynamic Nat
-  *\This method is invoked by GetNewOutsidePort() when pool of port is exhausted till last globalip of given pool of globalip is obtained.  
-  */
- 
+  /**
+   *\Generates Next GlobalIp For Dynamic Nat
+   *\This method is invoked by GetNewOutsidePort() when pool of port is exhausted till last globalip of given pool of globalip is obtained.
+   */
+
   void GetNewAddressPoolIp ();
-    
+
 
   /**
   *\return The Global Pool NetMask
@@ -408,21 +408,21 @@ private:
   *\return The a new port to translate to from the port pool
   */
   uint16_t GetNewOutsidePort ();
- 
+
   StaticNatRules m_statictable;
   DynamicNatRules m_dynamictable;
   DynamicNatTuple m_dynatuple;
   int32_t m_insideInterface;
   int32_t m_outsideInterface;
   Ipv4Address m_globalip;
-  Ipv4Address m_endglobalip;  
+  Ipv4Address m_endglobalip;
   Ipv4Mask m_globalmask;
   uint16_t m_startport;
   uint16_t m_endport;
   uint16_t m_currentPort;
   uint16_t m_flag;
   bool value;
-  
+
 };
 
 }

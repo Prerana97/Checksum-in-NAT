@@ -1,4 +1,4 @@
-/* This code snippet was ripped out of the gcc 
+/* This code snippet was ripped out of the gcc
  * documentation and slightly modified to work
  * with gcc 4.x
  */
@@ -10,8 +10,10 @@
 #ifdef __GNUC__
   #if __GNUC__ < 3
      #include <hash_map.h>
-namespace sgi { using ::hash_map; }; // inherit globals
-  #else 
+namespace sgi {
+using ::hash_map;
+};                                   // inherit globals
+  #else
      #if __GNUC__ < 4
        #include <ext/hash_map>
        #if __GNUC_MINOR__ == 0

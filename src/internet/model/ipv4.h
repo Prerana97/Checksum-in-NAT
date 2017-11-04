@@ -118,10 +118,6 @@ public:
    */
   virtual Ptr<Ipv4Netfilter> GetNetfilter (void) const = 0;
 
-
-
-  /**
-
   /**
    * \param device device to add to the list of Ipv4 interfaces
    *        which can be used as output interfaces during packet forwarding.

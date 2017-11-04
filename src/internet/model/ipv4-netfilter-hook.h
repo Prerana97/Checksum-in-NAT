@@ -45,7 +45,7 @@ typedef enum
 
 typedef enum
 {
-  NF_DROP=1,
+  NF_DROP = 1,
   NF_ACCEPT,
   NF_STOLEN,
   NF_QUEUE,

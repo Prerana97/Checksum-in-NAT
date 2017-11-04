@@ -38,7 +38,7 @@ public:
   Ipv4NatHelper ();
 
   /**
-   * \brief Construct an Ipv4NatHelper from another previously 
+   * \brief Construct an Ipv4NatHelper from another previously
    * initialized instance (Copy Constructor).
    */
   Ipv4NatHelper (const Ipv4NatHelper &);

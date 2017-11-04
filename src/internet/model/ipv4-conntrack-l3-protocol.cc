@@ -1,7 +1,7 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
-/* 
+/*
  * Copyright (c) 2009 University of Texas at Dallas
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation;
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
+ *
  * Author: Qasim Javed <qasim@utdallas.edu>
  */
 #include "ns3/log.h"
@@ -31,9 +31,9 @@ Ipv4ConntrackL3Protocol::Ipv4ConntrackL3Protocol ()
 {
 }
 
-uint32_t 
+uint32_t
 Ipv4ConntrackL3Protocol::Ipv4Confirm (Hooks_t hookNumber, Ptr<Packet> packet, Ptr<NetDevice> in,
-                      Ptr<NetDevice> out, ContinueCallback& ccb)
+                                      Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   NS_LOG_DEBUG (":: Executing hook function Ipv4Confirm ::");
   /*ConntrackTag ctinfo;
@@ -55,55 +55,55 @@ Ipv4ConntrackL3Protocol::Ipv4Confirm (Hooks_t hookNumber, Ptr<Packet> packet, Pt
   return 0;
 }
 
-uint32_t 
+uint32_t
 Ipv4ConntrackL3Protocol::Ipv4ConntrackPreRoutingHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   return 0;
 }
 
-uint32_t 
+uint32_t
 Ipv4ConntrackL3Protocol::Ipv4ConntrackInHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   return 0;
 }
 
-uint32_t 
+uint32_t
 Ipv4ConntrackL3Protocol::Ipv4ConntrackOutHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   return 0;
 }
 
-uint32_t 
+uint32_t
 Ipv4ConntrackL3Protocol::Ipv4ConntrackPostRoutingHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   return 0;
 }
 
-uint16_t 
+uint16_t
 Ipv4ConntrackL3Protocol::RegisterPreRoutingHook ()
 {
   return 0;
 }
 
-uint16_t 
+uint16_t
 Ipv4ConntrackL3Protocol::RegisterInHook ()
 {
   return 0;
 }
 
-uint16_t 
+uint16_t
 Ipv4ConntrackL3Protocol::RegisterOutHook ()
 {
   return 0;
 }
 
-uint16_t 
+uint16_t
 Ipv4ConntrackL3Protocol::RegisterPostRoutingHook ()
 {
   return 0;
 }
 
-bool 
+bool
 Ipv4ConntrackL3Protocol::PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
 {
   Ipv4Header ipHeader;
@@ -118,7 +118,7 @@ Ipv4ConntrackL3Protocol::PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTu
   return true;
 }
 
-bool 
+bool
 Ipv4ConntrackL3Protocol::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
 {
   inverse.SetSource (orig.GetDestination () );

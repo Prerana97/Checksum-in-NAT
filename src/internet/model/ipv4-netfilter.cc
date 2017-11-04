@@ -55,7 +55,7 @@ Ipv4Netfilter::GetTypeId (void)
 }
 
 Ipv4Netfilter::Ipv4Netfilter ()
- // : m_enableNat (0)
+// : m_enableNat (0)
 {
   NS_LOG_FUNCTION_NOARGS ();
 
@@ -104,7 +104,7 @@ Ipv4Netfilter::Ipv4Netfilter ()
 
   nextAvailablePort = 1024;
 */
-  }
+}
 
 void
 Ipv4Netfilter::RegisterHook (const Ipv4NetfilterHook& hook)
@@ -634,7 +634,7 @@ Ipv4Netfilter::EnableNat ()
   m_enableNat = 1;
 
   NS_LOG_DEBUG (":: Enabling NAT ::");
- std::cout<<"inside ENableNAT \n";
+  std::cout << "inside ENableNAT \n";
 
   NetfilterHookCallback doNat = MakeCallback (&Ipv4Netfilter::NetfilterDoNat, this);
 
@@ -649,7 +649,7 @@ Ipv4Netfilter::EnableNat ()
 uint32_t
 Ipv4Netfilter::NetfilterNatPacket (Hooks_t hookNumber, Ptr<Packet> p)
 {
-  
+
   NS_LOG_FUNCTION ( this << p );
   Ipv4Header ipHeader;
   uint16_t dstPort; //, srcPort;
@@ -746,9 +746,9 @@ Ipv4Netfilter::NetfilterNatPacket (Hooks_t hookNumber, Ptr<Packet> p)
         {
           TcpHeader tcpHeader;
           if (Node::ChecksumEnabled ())
-           {
-             tcpHeader.EnableChecksums ();
-           }
+            {
+              tcpHeader.EnableChecksums ();
+            }
           p->RemoveHeader (tcpHeader);
 
           tcpHeader.SetDestinationPort (dstPort);
@@ -779,6 +779,6 @@ Ipv4Netfilter::NetfilterNatPacket (Hooks_t hookNumber, Ptr<Packet> p)
   return NF_ACCEPT;
 
 }
-#endif 
+#endif
 
 } // Namespace ns3

@@ -46,7 +46,7 @@ namespace ns3 {
 Ipv4NetfilterHook natCallback1;
 Ipv4NetfilterHook natCallback2;
 Ipv4AddressGenerator address;
- 
+
 
 
 NS_OBJECT_ENSURE_REGISTERED (Ipv4Nat);
@@ -65,7 +65,9 @@ Ipv4Nat::GetTypeId (void)
 
 Ipv4Nat::Ipv4Nat () //Constructor : Called whenever the nat is installed on any node.
   : m_insideInterface (-1),
-    m_outsideInterface (-1),m_startport(-1),m_endport(-1)
+    m_outsideInterface (-1),
+    m_startport (-1),
+    m_endport (-1)
 {
   NS_LOG_FUNCTION (this);
 
@@ -237,7 +239,7 @@ Ipv4Nat::RemoveDynamicRule (uint32_t index)
  *
  * \param stream the ostream the NAT table is printed to
  */
- 
+
 void
 Ipv4Nat::PrintTable (Ptr<OutputStreamWrapper> stream) const
 
@@ -291,7 +293,7 @@ Ipv4Nat::PrintTable (Ptr<OutputStreamWrapper> stream) const
       for (uint32_t i = 0; i < GetNDynamicRules (); i++)
         {
           std::ostringstream locnet,locmask,gloip,glomask,strtprt,endprt;
-          Ipv4DynamicNatRule rule = GetDynamicRule (i);//Contains the tuple having localnet and subnet mask
+          Ipv4DynamicNatRule rule = GetDynamicRule (i); //Contains the tuple having localnet and subnet mask
                                                        //Rules keep track of the localnet and the subnet mask
           locnet << rule.GetLocalNet ();
           *os << std::setiosflags (std::ios::left) << std::setw (32) << locnet.str ();
@@ -312,7 +314,7 @@ Ipv4Nat::PrintTable (Ptr<OutputStreamWrapper> stream) const
       for (uint32_t i = 0; i < GetNDynamicTuples (); i++)
         {
           std::ostringstream locip,gloip,locprt,prt;
-          Ipv4DynamicNatTuple tup = GetDynamicTuple (i);//Returns the localip, globalip and the port assigned to each node
+          Ipv4DynamicNatTuple tup = GetDynamicTuple (i); //Returns the localip, globalip and the port assigned to each node
                                                         //Tuples keep track of the entry for each node, having all the above information
 
           locip << tup.GetLocalAddress ();
@@ -321,10 +323,10 @@ Ipv4Nat::PrintTable (Ptr<OutputStreamWrapper> stream) const
           gloip << tup.GetGlobalAddress ();
           *os << std::setiosflags (std::ios::left) << std::setw (16) << gloip.str ();
 
-           locprt<< tup.GetLocalPort ();
+          locprt << tup.GetLocalPort ();
           *os << std::setiosflags (std::ios::left) << std::setw (16) << locprt.str ();
 
-           prt << tup.GetTranslatedPort ();
+          prt << tup.GetTranslatedPort ();
           *os << std::setiosflags (std::ios::left) << std::setw (16) << prt.str ();
 
 
@@ -340,8 +342,8 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                           Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb)
 {
   NS_LOG_FUNCTION (this << p << hookNumber << in << out);
- 
-  value=false;
+
+  value = false;
 
   if (m_ipv4 == 0)
     {
@@ -357,7 +359,7 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
       ipHeader.EnableChecksum ();
     }
   p->RemoveHeader (ipHeader);
-  if (m_ipv4->GetInterfaceForDevice (in) == m_outsideInterface) //The interface number of an Ipv4 interface or -1 if not found. 
+  if (m_ipv4->GetInterfaceForDevice (in) == m_outsideInterface) //The interface number of an Ipv4 interface or -1 if not found.
     {                                                           //Member variable of the class IPv4Nat (Nat node) - OutsideInterface.
       // outside interface is the input interface, NAT the destination addr
       // so that the NAT does not try to locally deliver the packet
@@ -378,13 +380,12 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
               NS_LOG_DEBUG ("Rule match with a non-port-specific rule");
               ipHeader.SetDestination ((*i).GetLocalIp ());
               p->AddHeader (ipHeader);
-              value=true;
+              value = true;
               return NF_ACCEPT;
             }
           else
             {
               NS_LOG_DEBUG ("evaluating rule with local port " << (*i).GetLocalPort () << " global port " << (*i).GetGlobalPort ());
-
               if (ipHeader.GetProtocol () == IPPROTO_TCP
                   && (((*i).GetProtocol () == IPPROTO_TCP)
                       || (*i).GetProtocol () == 0))
@@ -400,13 +401,13 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                       tcpHeader.SetDestinationPort ((*i).GetLocalPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          tcpHeader.InitializeChecksum (ipHeader.GetSource(),(*i).GetLocalIp (),6);
+                          tcpHeader.InitializeChecksum (ipHeader.GetSource (),(*i).GetLocalIp (),6);
                         }
                       p->AddHeader (tcpHeader);
- 
+
                       ipHeader.SetDestination ((*i).GetLocalIp ());
                       p->AddHeader (ipHeader);
-                      value=true;
+                      value = true;
 
                       return NF_ACCEPT;
 
@@ -427,25 +428,25 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                   if (udpHeader.GetDestinationPort () == (*i).GetGlobalPort ())
                     {
                       udpHeader.SetDestinationPort ((*i).GetLocalPort ());
-                      
+
                       if (Node::ChecksumEnabled ())
                         {
-                          udpHeader.InitializeChecksum (ipHeader.GetSource(),(*i).GetLocalIp (),17);
-                          udpHeader.ForceChecksum(0);
-                          udpHeader.ForcePayloadSize(0);
+                          udpHeader.InitializeChecksum (ipHeader.GetSource (),(*i).GetLocalIp (),17);
+                          udpHeader.ForceChecksum (0);
+                          udpHeader.ForcePayloadSize (0);
                         }
                       p->AddHeader (udpHeader);
 
                       ipHeader.SetDestination ((*i).GetLocalIp ());
                       p->AddHeader (ipHeader);
-                      value=true;
+                      value = true;
 
                       return NF_ACCEPT;
                     }
                   p->AddHeader (udpHeader);
                 }
 
-            } 
+            }
         } //for loop ends here
 
 
@@ -471,7 +472,7 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
               NS_LOG_DEBUG ("Rule match with a non-port-specific rule");
               ipHeader.SetDestination ((*i).GetLocalAddress ());
               p->AddHeader (ipHeader);
-              value=true;
+              value = true;
               return NF_ACCEPT;
             }
 
@@ -486,18 +487,18 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                     {
                       tcpHeader.EnableChecksums ();
                     }
-                  p->RemoveHeader(tcpHeader);
+                  p->RemoveHeader (tcpHeader);
                   if (tcpHeader.GetDestinationPort () == (*i).GetTranslatedPort ())
                     {
                       ipHeader.SetDestination ((*i).GetLocalAddress ());
-                      tcpHeader.SetDestinationPort ((*i).GetLocalPort());
+                      tcpHeader.SetDestinationPort ((*i).GetLocalPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          tcpHeader.InitializeChecksum (ipHeader.GetSource(),(*i).GetLocalAddress (),6);
+                          tcpHeader.InitializeChecksum (ipHeader.GetSource (),(*i).GetLocalAddress (),6);
                         }
                       p->AddHeader (tcpHeader);
                       p->AddHeader (ipHeader);
-                      value=true;
+                      value = true;
                       return NF_ACCEPT;
                     }
                   p->AddHeader (tcpHeader);
@@ -509,34 +510,34 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                     {
                       udpHeader.EnableChecksums ();
                     }
-                  p->RemoveHeader(udpHeader);
+                  p->RemoveHeader (udpHeader);
 
                   if (udpHeader.GetDestinationPort () == (*i).GetTranslatedPort ())
                     {
                       ipHeader.SetDestination ((*i).GetLocalAddress ());
-                     
-                      udpHeader.SetDestinationPort ((*i).GetLocalPort());
-                       
+
+                      udpHeader.SetDestinationPort ((*i).GetLocalPort ());
+
                       if (Node::ChecksumEnabled ())
                         {
-                          udpHeader.InitializeChecksum (ipHeader.GetSource(),(*i).GetLocalAddress (),17);
-                          udpHeader.ForceChecksum(0);
-                          udpHeader.ForcePayloadSize(0);
+                          udpHeader.InitializeChecksum (ipHeader.GetSource (),(*i).GetLocalAddress (),17);
+                          udpHeader.ForceChecksum (0);
+                          udpHeader.ForcePayloadSize (0);
                         }
                       p->AddHeader (udpHeader);
                       p->AddHeader (ipHeader);
-                      value=true;
+                      value = true;
                       return NF_ACCEPT;
-                     
+
                     }
                   p->AddHeader (udpHeader);
 
-                  
+
                 }
             }
         } //for loop ends
-                
-        //std::cout<<ipHeader.GetDestination()<<"\n\n";
+
+      //std::cout<<ipHeader.GetDestination()<<"\n\n";
     }
   //std::cout<<ipHeader.GetDestination()<<"\n\n";
   p->AddHeader (ipHeader);
@@ -559,20 +560,20 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
   Ipv4Header ipHeader;
   uint16_t port;
-  Ipv4Address global_ip; 
+  Ipv4Address global_ip;
 
   NS_LOG_DEBUG ("Input device " << m_ipv4->GetInterfaceForDevice (in) << " inside interface " << m_insideInterface);
   NS_LOG_DEBUG ("Output device " << m_ipv4->GetInterfaceForDevice (out) << " outside interface " << m_outsideInterface);
   if (Node::ChecksumEnabled ())
     {
       ipHeader.EnableChecksum ();
-    } 
+    }
   p->RemoveHeader (ipHeader);
 
 /*std::cout<<ipHeader;
   std::cout<<"\n\n";*/
 
-  if (m_ipv4->GetInterfaceForDevice (out) == m_outsideInterface) 
+  if (m_ipv4->GetInterfaceForDevice (out) == m_outsideInterface)
     {
       // matching output interface, consider whether to NAT the source
       // address and port
@@ -615,7 +616,7 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                       tcpHeader.SetSourcePort ((*i).GetGlobalPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          tcpHeader.InitializeChecksum ((*i).GetGlobalIp (),ipHeader.GetDestination(),6);
+                          tcpHeader.InitializeChecksum ((*i).GetGlobalIp (),ipHeader.GetDestination (),6);
                         }
                       p->AddHeader (tcpHeader);
                       ipHeader.SetSource ((*i).GetGlobalIp ());
@@ -633,20 +634,20 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                     {
                       udpHeader.EnableChecksums ();
                     }
-                  
+
                   p->RemoveHeader (udpHeader);
                   if (udpHeader.GetSourcePort () == (*i).GetLocalPort ())
                     {
-                      udpHeader.SetSourcePort ((*i).GetGlobalPort ());          
+                      udpHeader.SetSourcePort ((*i).GetGlobalPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          udpHeader.InitializeChecksum ((*i).GetGlobalIp (),ipHeader.GetDestination(),17);
-                          udpHeader.ForceChecksum(0);
-                          udpHeader.ForcePayloadSize(0);
+                          udpHeader.InitializeChecksum ((*i).GetGlobalIp (),ipHeader.GetDestination (),17);
+                          udpHeader.ForceChecksum (0);
+                          udpHeader.ForcePayloadSize (0);
                         }
-                      
+
                       p->AddHeader (udpHeader);
-                      
+
                       ipHeader.SetSource ((*i).GetGlobalIp ());
                       p->AddHeader (ipHeader);
                       return NF_ACCEPT;
@@ -662,14 +663,14 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
       for (DynamicNatTuple::const_iterator i = m_dynatuple.begin (); //Ipv4DynamicNatTuple::Ipv4DynamicNatTuple (Ipv4Address local, Ipv4Address global, uint16_t port)
            i != m_dynatuple.end (); i++)
         {
-                       
+
 
           if (srcAddress != (*i).GetLocalAddress ())
             {
               NS_LOG_DEBUG ("Skipping rule with local IP " << (*i).GetLocalAddress ());
               continue;
             }
-             
+
           if ((*i).GetLocalPort () == 0)
             {
               NS_LOG_DEBUG ("Rule match with a non-port-specific rule");
@@ -685,19 +686,19 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                 {
                   TcpHeader tcpHeader;
                   if (Node::ChecksumEnabled ())
-                  {
-                    tcpHeader.EnableChecksums ();
-                  }
+                    {
+                      tcpHeader.EnableChecksums ();
+                    }
                   p->RemoveHeader (tcpHeader);
-                  if (tcpHeader.GetSourcePort () == (*i).GetLocalPort ())// changes made
+                  if (tcpHeader.GetSourcePort () == (*i).GetLocalPort ()) // changes made
                     {
                       tcpHeader.SetSourcePort ((*i).GetTranslatedPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          tcpHeader.InitializeChecksum ((*i).GetGlobalAddress (),ipHeader.GetDestination(),6);
+                          tcpHeader.InitializeChecksum ((*i).GetGlobalAddress (),ipHeader.GetDestination (),6);
                         }
                       p->AddHeader (tcpHeader);
-                      ipHeader.SetSource ((*i).GetGlobalAddress()); //changes made
+                      ipHeader.SetSource ((*i).GetGlobalAddress ()); //changes made
                       p->AddHeader (ipHeader);
                       return NF_ACCEPT;
                     }
@@ -711,17 +712,17 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                       udpHeader.EnableChecksums ();
                     }
                   p->RemoveHeader (udpHeader);
-                  if (udpHeader.GetSourcePort () ==(*i).GetLocalPort())//changes made
-                    {             
-                      udpHeader.SetSourcePort ((*i).GetTranslatedPort());              
+                  if (udpHeader.GetSourcePort () == (*i).GetLocalPort ()) //changes made
+                    {
+                      udpHeader.SetSourcePort ((*i).GetTranslatedPort ());
                       if (Node::ChecksumEnabled ())
                         {
-                          udpHeader.InitializeChecksum ((*i).GetGlobalAddress (),ipHeader.GetDestination(),17);
-                          udpHeader.ForceChecksum(0);
-                          udpHeader.ForcePayloadSize(0);
+                          udpHeader.InitializeChecksum ((*i).GetGlobalAddress (),ipHeader.GetDestination (),17);
+                          udpHeader.ForceChecksum (0);
+                          udpHeader.ForcePayloadSize (0);
                         }
                       p->AddHeader (udpHeader);
-                      ipHeader.SetSource ((*i).GetGlobalAddress());   //changes made          
+                      ipHeader.SetSource ((*i).GetGlobalAddress ());   //changes made
                       p->AddHeader (ipHeader);
                       return NF_ACCEPT;
                     }
@@ -729,11 +730,11 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
                 }
             }
-        }//for loop ends
+        } //for loop ends
 
 //This is for the new connections
 
-       
+
 
       for (DynamicNatRules::const_iterator i = m_dynamictable.begin ();
            i != m_dynamictable.end (); i++)
@@ -742,15 +743,15 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
             {
               NS_LOG_DEBUG ("Checking for new connections");
               ipHeader.SetSource (GetAddressPoolIp ());
-              global_ip=GetAddressPoolIp ();
-                
-              port=GetNewOutsidePort();
-              if(port==0)
-                {         
+              global_ip = GetAddressPoolIp ();
+
+              port = GetNewOutsidePort ();
+              if (port == 0)
+                {
                   p->AddHeader (ipHeader);
-                  return NF_DROP; 
+                  return NF_DROP;
                 }
-    
+
               if (ipHeader.GetProtocol () == IPPROTO_TCP)
                 {
                   TcpHeader tcpHeader;
@@ -760,26 +761,26 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                     }
                   p->RemoveHeader (tcpHeader);
                   uint16_t locport;
-         
-                  locport = tcpHeader.GetSourcePort();
-                
+
+                  locport = tcpHeader.GetSourcePort ();
+
                   tcpHeader.SetSourcePort (port);
                   if (Node::ChecksumEnabled ())
                     {
-                      tcpHeader.InitializeChecksum (global_ip,ipHeader.GetDestination(),6);
+                      tcpHeader.InitializeChecksum (global_ip,ipHeader.GetDestination (),6);
                     }
                   p->AddHeader (tcpHeader);
-              
+
                   Ipv4DynamicNatTuple natuple (srcAddress,global_ip,GetCurrentPort (),locport);
 
                   m_dynatuple.push_front (natuple);
                   p->AddHeader (ipHeader);
-                        
-     
+
+
                   return NF_ACCEPT;
                 }
               else
-                {              
+                {
                   UdpHeader udpHeader;
                   if (Node::ChecksumEnabled ())
                     {
@@ -787,16 +788,16 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                     }
                   p->RemoveHeader (udpHeader);
                   uint16_t locport;
-                  locport = udpHeader.GetSourcePort();
+                  locport = udpHeader.GetSourcePort ();
                   udpHeader.SetSourcePort (port);
-                  
+
                   if (Node::ChecksumEnabled ())
                     {
-                      udpHeader.InitializeChecksum (global_ip,ipHeader.GetDestination(),17);
-                      udpHeader.ForceChecksum(0);
-                      udpHeader.ForcePayloadSize(0);
+                      udpHeader.InitializeChecksum (global_ip,ipHeader.GetDestination (),17);
+                      udpHeader.ForceChecksum (0);
+                      udpHeader.ForcePayloadSize (0);
                     }
-                      
+
                   p->AddHeader (udpHeader);
                   Ipv4DynamicNatTuple natuple (srcAddress,global_ip,GetCurrentPort (), locport);
                   m_dynatuple.push_front (natuple);
@@ -808,12 +809,12 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
             }
 
-        }//for loop ends
-        
+        } //for loop ends
+
     }
   p->AddHeader (ipHeader);
 
-  if(value==true)
+  if (value == true)
     {
 
       //std::cout<<"Packet Accepted\n";
@@ -833,14 +834,14 @@ void
 Ipv4Nat::AddAddressPool (Ipv4Address netid,Ipv4Address globalip, Ipv4Address endglobalip, Ipv4Mask globalmask)
 {
   m_globalmask = globalmask;
-   address.Init(netid,m_globalmask);
+  address.Init (netid,m_globalmask);
   //get lastglobalip
-  address.InitAddress(endglobalip,m_globalmask);
-  m_endglobalip=address.GetAddress(m_globalmask);
+  address.InitAddress (endglobalip,m_globalmask);
+  m_endglobalip = address.GetAddress (m_globalmask);
 
   //get Initial GlobalIp
-  address.InitAddress(globalip,m_globalmask);
-  m_globalip=address.GetAddress(m_globalmask);
+  address.InitAddress (globalip,m_globalmask);
+  m_globalip = address.GetAddress (m_globalmask);
 }
 
 Ipv4Address
@@ -849,22 +850,22 @@ Ipv4Nat::GetAddressPoolIp () const
   return m_globalip;
 }
 void
-Ipv4Nat::GetNewAddressPoolIp () 
+Ipv4Nat::GetNewAddressPoolIp ()
 {
-  
-  if(GetAddressPoolIp()!=m_endglobalip)  
-  {
-        
-        address.NextAddress(m_globalmask);
-        m_globalip=address.GetAddress(m_globalmask); 
-  }
-     
+
+  if (GetAddressPoolIp () != m_endglobalip)
+    {
+
+      address.NextAddress (m_globalmask);
+      m_globalip = address.GetAddress (m_globalmask);
+    }
+
   else
     {
-        //if range of globaladdress finishes 
-      m_flag=1;
-    }   
- 
+      //if range of globaladdress finishes
+      m_flag = 1;
+    }
+
 }
 Ipv4Mask
 Ipv4Nat::GetAddressPoolMask () const
@@ -904,15 +905,15 @@ uint16_t
 Ipv4Nat::GetNewOutsidePort ()
 {
 
-   if(m_currentPort==m_endport-1)
-   {
-     GetNewAddressPoolIp();    
-   }
-   if(m_currentPort==m_endport)
-   {
-        //If Not a Last Global Address Of Dynamic Nat  Pool ,then reset m_currentPort to m_startport-1 otherwise 0
-     m_currentPort= m_flag!=1?m_startport - 1:0;    
-   }
+  if (m_currentPort == m_endport - 1)
+    {
+      GetNewAddressPoolIp ();
+    }
+  if (m_currentPort == m_endport)
+    {
+      //If Not a Last Global Address Of Dynamic Nat  Pool ,then reset m_currentPort to m_startport-1 otherwise 0
+      m_currentPort = m_flag != 1 ? m_startport - 1 : 0;
+    }
 
   for (int i = m_startport - 1; i <= m_endport; i++)
     {

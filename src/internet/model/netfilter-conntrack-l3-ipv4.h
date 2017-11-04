@@ -31,7 +31,7 @@ public:
   NetfilterConntrackL3Ipv4 ();
   ~NetfilterConntrackL3Ipv4 ();
   uint32_t RegisterNetfilterL3Ipv4 ();
-   uint32_t UnRegisterNetfilterL3Ipv4 ();
+  uint32_t UnRegisterNetfilterL3Ipv4 ();
 
 private:
   NetfilterConntrackL3Protocol ipv4;

@@ -110,15 +110,17 @@ NetfilterCallbackChain::IterateAndCallHook (Hooks_t hookNumber, Ptr<Packet> p, P
   for (; it != m_netfilterHooks.end (); it++)
     {
 
-      int32_t verdict=it->HookCallback (hookNumber, p, in, out, ccb);
+      int32_t verdict = it->HookCallback (hookNumber, p, in, out, ccb);
 
-if(verdict==NF_DROP)
-return NF_DROP;
+      if (verdict == NF_DROP)
+        {
+          return NF_DROP;
+        }
 
 
     }
 
-  return NF_ACCEPT; 
+  return NF_ACCEPT;
 }
 
 } // namespace ns3
