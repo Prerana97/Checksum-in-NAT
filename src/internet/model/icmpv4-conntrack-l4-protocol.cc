@@ -30,7 +30,7 @@ Icmpv4ConntrackL4Protocol::Icmpv4ConntrackL4Protocol ()
 }
 
 bool
-Icmpv4ConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
+Icmpv4ConntrackL4Protocol::hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
 {
   NS_LOG_FUNCTION ( this << p );
   Icmpv4Header icmpHeader;
@@ -47,7 +47,7 @@ Icmpv4ConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple
 }
 
 bool
-Icmpv4ConntrackL4Protocol::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+Icmpv4ConntrackL4Protocol::hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
 {
   return true;
 }

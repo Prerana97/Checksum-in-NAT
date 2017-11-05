@@ -39,8 +39,8 @@ public:
   NetfilterConntrackTuple ();
   NetfilterConntrackTuple (Ipv4Address src, uint16_t srcPort, Ipv4Address dst, uint16_t dstPort);
   bool operator== (const NetfilterConntrackTuple t) const;
-  bool SourceEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
-  bool DestinationEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
+  bool isSourceEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
+  bool isDestinationEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
   NetfilterConntrackTuple Invert ();
 
   Ipv4Address GetSource () const;

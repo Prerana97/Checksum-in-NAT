@@ -48,14 +48,14 @@ NetfilterConntrackTuple::operator== (const NetfilterConntrackTuple t) const
 }
 
 bool
-NetfilterConntrackTuple::SourceEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2)
+NetfilterConntrackTuple::isSourceEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2)
 {
   return (t1.m_l3Source == t2.m_l3Source)
          && (t1.m_l4Source == t2.m_l4Source);
 }
 
 bool
-NetfilterConntrackTuple::DestinationEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2)
+NetfilterConntrackTuple::isDestinationEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2)
 {
   return (t1.m_l3Destination == t2.m_l3Destination)
          && (t1.m_l4Destination == t2.m_l4Destination);

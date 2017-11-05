@@ -94,10 +94,10 @@ public:
 
 
 private:
-  Ipv4Address m_localaddr;
-  Ipv4Address m_globaladdr;
-  uint16_t m_localport;
-  uint16_t m_globalport;
+  Ipv4Address m_locAddr;
+  Ipv4Address m_globalAddr;
+  uint16_t m_locPort;
+  uint16_t m_globalPort;
   uint16_t m_protocol;
 
   // private data member
@@ -129,8 +129,8 @@ public:
   Ipv4Mask GetLocalMask () const;
 
 private:
-  Ipv4Address m_localnetwork;
-  Ipv4Mask m_localmask;
+  Ipv4Address m_localNetwork;
+  Ipv4Mask m_localMask;
   // private data members
 };
 
@@ -171,10 +171,10 @@ public:
 
 
 private:
-  Ipv4Address m_localip;
-  Ipv4Address m_globalip;
+  Ipv4Address m_locIp;
+  Ipv4Address m_globalIp;
   uint16_t m_port;
-  uint16_t m_localport;
+  uint16_t m_locPort;
 
 };
 
@@ -397,16 +397,16 @@ private:
    */
   uint16_t GetNewOutsidePort ();
 
-  StaticNatRules m_statictable;
-  DynamicNatRules m_dynamictable;
-  DynamicNatTuple m_dynatuple;
+  StaticNatRules m_staticTable;
+  DynamicNatRules m_dynamicTable;
+  DynamicNatTuple m_dynaTuple;
   int32_t m_insideInterface;
   int32_t m_outsideInterface;
-  Ipv4Address m_globalip;
-  Ipv4Address m_endglobalip;
-  Ipv4Mask m_globalmask;
-  uint16_t m_startport;
-  uint16_t m_endport;
+  Ipv4Address m_globalIp;
+  Ipv4Address m_endGlobalIp;
+  Ipv4Mask m_globalMask;
+  uint16_t m_startPort;
+  uint16_t m_endPort;
   uint16_t m_currentPort;
   uint16_t m_flag;
   bool value;

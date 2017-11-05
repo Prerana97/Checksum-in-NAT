@@ -66,8 +66,8 @@ Ipv4Nat::GetTypeId (void)
 Ipv4Nat::Ipv4Nat () //Constructor : Called whenever the nat is installed on any node.
   : m_insideInterface (-1),
     m_outsideInterface (-1),
-    m_startport (-1),
-    m_endport (-1)
+    m_startPort (-1),
+    m_endPort (-1)
 {
   NS_LOG_FUNCTION (this);
 
@@ -118,7 +118,7 @@ uint32_t
 Ipv4Nat::GetNStaticRules (void) const
 {
   NS_LOG_FUNCTION (this);
-  return m_statictable.size ();
+  return m_staticTable.size ();
 }
 
 Ipv4StaticNatRule
@@ -126,8 +126,8 @@ Ipv4Nat::GetStaticRule (uint32_t index) const
 {
   NS_LOG_FUNCTION (this << index);
   uint32_t tmp = 0;
-  for (StaticNatRules::const_iterator i = m_statictable.begin ();
-       i != m_statictable.end ();
+  for (StaticNatRules::const_iterator i = m_staticTable.begin ();
+       i != m_staticTable.end ();
        i++)
     {
       if (tmp == index)
@@ -146,8 +146,8 @@ Ipv4Nat::GetDynamicRule (uint32_t index) const
 {
   NS_LOG_FUNCTION (this << index);
   uint32_t tmp = 0;
-  for (DynamicNatRules::const_iterator i = m_dynamictable.begin ();
-       i != m_dynamictable.end ();
+  for (DynamicNatRules::const_iterator i = m_dynamicTable.begin ();
+       i != m_dynamicTable.end ();
        i++)
     {
       if (tmp == index)
@@ -166,8 +166,8 @@ Ipv4Nat::GetDynamicTuple (uint32_t index) const
 {
   NS_LOG_FUNCTION (this << index);
   uint32_t tmp = 0;
-  for (DynamicNatTuple::const_iterator i = m_dynatuple.begin ();
-       i != m_dynatuple.end ();
+  for (DynamicNatTuple::const_iterator i = m_dynaTuple.begin ();
+       i != m_dynaTuple.end ();
        i++)
     {
       if (tmp == index)
@@ -186,14 +186,14 @@ uint32_t
 Ipv4Nat::GetNDynamicRules (void) const
 {
   NS_LOG_FUNCTION (this);
-  return m_dynamictable.size ();
+  return m_dynamicTable.size ();
 }
 
 uint32_t
 Ipv4Nat::GetNDynamicTuples (void) const
 {
   NS_LOG_FUNCTION (this);
-  return m_dynatuple.size ();
+  return m_dynaTuple.size ();
 }
 
 void
@@ -201,14 +201,14 @@ Ipv4Nat::RemoveStaticRule (uint32_t index)
 {
 
   NS_LOG_FUNCTION (this << index);
-  NS_ASSERT (index < m_statictable.size ());
+  NS_ASSERT (index < m_staticTable.size ());
   uint32_t tmp = 0;
-  for (StaticNatRules::iterator i = m_statictable.begin ();
-       i != m_statictable.end (); i++, tmp++)
+  for (StaticNatRules::iterator i = m_staticTable.begin ();
+       i != m_staticTable.end (); i++, tmp++)
     {
       if (tmp == index)
         {
-          m_statictable.erase (i);
+          m_staticTable.erase (i);
           return;
         }
     }
@@ -219,14 +219,14 @@ void
 Ipv4Nat::RemoveDynamicRule (uint32_t index)
 {
   NS_LOG_FUNCTION (this << index);
-  NS_ASSERT (index < m_dynamictable.size ());
+  NS_ASSERT (index < m_dynamicTable.size ());
   uint32_t tmp = 0;
-  for (DynamicNatRules::iterator i = m_dynamictable.begin ();
-       i != m_dynamictable.end (); i++, tmp++)
+  for (DynamicNatRules::iterator i = m_dynamicTable.begin ();
+       i != m_dynamicTable.end (); i++, tmp++)
     {
       if (tmp == index)
         {
-          m_dynamictable.erase (i);
+          m_dynamicTable.erase (i);
           return;
         }
     }
@@ -367,8 +367,8 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
       Ipv4Address destAddress = ipHeader.GetDestination ();
       //std::cout<< "Destination Address:\n"<<destAddress;//Confirms the packets coming from the server.
       //Checking for Static NAT Rules
-      for (StaticNatRules::const_iterator i = m_statictable.begin ();
-           i != m_statictable.end (); i++)
+      for (StaticNatRules::const_iterator i = m_staticTable.begin ();
+           i != m_staticTable.end (); i++)
         {
           if (destAddress != (*i).GetGlobalIp ())
             {
@@ -453,14 +453,14 @@ Ipv4Nat::DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
       //Passing traffic that has existing outgoing dynamic nat connections
 /*      int count = 0;
       std::cout<<"\n\n";
-      for (DynamicNatTuple::const_iterator j = m_dynatuple.begin ();
-           j != m_dynatuple.end (); j++)
+      for (DynamicNatTuple::const_iterator j = m_dynaTuple.begin ();
+           j != m_dynaTuple.end (); j++)
           std::cout<< (*j).GetLocalAddress() << "\t" << (*j).GetTranslatedPort()<<"\n\n";*/
 
       //std::cout<<"Destination address : " << destAddress << "AddressPoolIP : " << GetAddressPoolIp()<<"\n\n"; Confirms that both are always the same
 
-      for (DynamicNatTuple::const_iterator i = m_dynatuple.begin ();
-           i != m_dynatuple.end (); i++)
+      for (DynamicNatTuple::const_iterator i = m_dynaTuple.begin ();
+           i != m_dynaTuple.end (); i++)
         {
           if (destAddress != (*i).GetGlobalAddress ())
             {
@@ -582,8 +582,8 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
 
       //Checking for Static NAT Rules
-      for (StaticNatRules::const_iterator i = m_statictable.begin ();
-           i != m_statictable.end (); i++)
+      for (StaticNatRules::const_iterator i = m_staticTable.begin ();
+           i != m_staticTable.end (); i++)
         {
           if (srcAddress != (*i).GetLocalIp ())
             {
@@ -660,8 +660,8 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
       //Checking for Dynamic NAT Rules
 
       //Checking for existing connection
-      for (DynamicNatTuple::const_iterator i = m_dynatuple.begin (); //Ipv4DynamicNatTuple::Ipv4DynamicNatTuple (Ipv4Address local, Ipv4Address global, uint16_t port)
-           i != m_dynatuple.end (); i++)
+      for (DynamicNatTuple::const_iterator i = m_dynaTuple.begin (); //Ipv4DynamicNatTuple::Ipv4DynamicNatTuple (Ipv4Address local, Ipv4Address global, uint16_t port)
+           i != m_dynaTuple.end (); i++)
         {
 
 
@@ -736,8 +736,8 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
 
 
-      for (DynamicNatRules::const_iterator i = m_dynamictable.begin ();
-           i != m_dynamictable.end (); i++)
+      for (DynamicNatRules::const_iterator i = m_dynamicTable.begin ();
+           i != m_dynamicTable.end (); i++)
         {
           if ((*i).GetLocalNet ().CombineMask ((*i).GetLocalMask ()) == srcAddress.CombineMask ((*i).GetLocalMask ()))
             {
@@ -773,7 +773,7 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
                   Ipv4DynamicNatTuple natuple (srcAddress,global_ip,GetCurrentPort (),locport);
 
-                  m_dynatuple.push_front (natuple);
+                  m_dynaTuple.push_front (natuple);
                   p->AddHeader (ipHeader);
 
 
@@ -800,7 +800,7 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 
                   p->AddHeader (udpHeader);
                   Ipv4DynamicNatTuple natuple (srcAddress,global_ip,GetCurrentPort (), locport);
-                  m_dynatuple.push_front (natuple);
+                  m_dynaTuple.push_front (natuple);
 
                   p->AddHeader (ipHeader);
 
@@ -833,31 +833,31 @@ Ipv4Nat::DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
 void
 Ipv4Nat::AddAddressPool (Ipv4Address netid,Ipv4Address globalip, Ipv4Address endglobalip, Ipv4Mask globalmask)
 {
-  m_globalmask = globalmask;
-  address.Init (netid,m_globalmask);
+  m_globalMask = globalmask;
+  address.Init (netid,m_globalMask);
   //get lastglobalip
-  address.InitAddress (endglobalip,m_globalmask);
-  m_endglobalip = address.GetAddress (m_globalmask);
+  address.InitAddress (endglobalip,m_globalMask);
+  m_endGlobalIp = address.GetAddress (m_globalMask);
 
   //get Initial GlobalIp
-  address.InitAddress (globalip,m_globalmask);
-  m_globalip = address.GetAddress (m_globalmask);
+  address.InitAddress (globalip,m_globalMask);
+  m_globalIp = address.GetAddress (m_globalMask);
 }
 
 Ipv4Address
 Ipv4Nat::GetAddressPoolIp () const
 {
-  return m_globalip;
+  return m_globalIp;
 }
 void
 Ipv4Nat::GetNewAddressPoolIp ()
 {
 
-  if (GetAddressPoolIp () != m_endglobalip)
+  if (GetAddressPoolIp () != m_endGlobalIp)
     {
 
-      address.NextAddress (m_globalmask);
-      m_globalip = address.GetAddress (m_globalmask);
+      address.NextAddress (m_globalMask);
+      m_globalIp = address.GetAddress (m_globalMask);
     }
 
   else
@@ -870,7 +870,7 @@ Ipv4Nat::GetNewAddressPoolIp ()
 Ipv4Mask
 Ipv4Nat::GetAddressPoolMask () const
 {
-  return m_globalmask;
+  return m_globalMask;
 }
 
 void
@@ -878,21 +878,21 @@ Ipv4Nat::AddPortPool (uint16_t strtprt, uint16_t endprt)         //port range
 {
   NS_LOG_FUNCTION (this << strtprt << endprt);
 
-  m_startport = strtprt;
-  m_endport = endprt;
+  m_startPort = strtprt;
+  m_endPort = endprt;
   m_currentPort = strtprt - 1;
 }
 
 uint16_t
 Ipv4Nat::GetStartPort () const
 {
-  return m_startport;
+  return m_startPort;
 }
 
 uint16_t
 Ipv4Nat::GetEndPort () const
 {
-  return m_endport;
+  return m_endPort;
 }
 
 uint16_t
@@ -905,17 +905,17 @@ uint16_t
 Ipv4Nat::GetNewOutsidePort ()
 {
 
-  if (m_currentPort == m_endport - 1)
+  if (m_currentPort == m_endPort - 1)
     {
       GetNewAddressPoolIp ();
     }
-  if (m_currentPort == m_endport)
+  if (m_currentPort == m_endPort)
     {
-      //If Not a Last Global Address Of Dynamic Nat  Pool ,then reset m_currentPort to m_startport-1 otherwise 0
-      m_currentPort = m_flag != 1 ? m_startport - 1 : 0;
+      //If Not a Last Global Address Of Dynamic Nat  Pool ,then reset m_currentPort to m_startPort-1 otherwise 0
+      m_currentPort = m_flag != 1 ? m_startPort - 1 : 0;
     }
 
-  for (int i = m_startport - 1; i <= m_endport; i++)
+  for (int i = m_startPort - 1; i <= m_endPort; i++)
     {
       if ( m_currentPort == i)
         {
@@ -948,7 +948,7 @@ void
 Ipv4Nat::AddDynamicRule (const Ipv4DynamicNatRule& rule)
 {
   NS_LOG_FUNCTION (this);
-  m_dynamictable.push_front (rule);
+  m_dynamicTable.push_front (rule);
 }
 
 
@@ -956,8 +956,8 @@ void
 Ipv4Nat::AddStaticRule (const Ipv4StaticNatRule& rule)
 {
   NS_LOG_FUNCTION (this);
-  m_statictable.push_front (rule);
-  NS_LOG_DEBUG ("list has " << m_statictable.size () << " elements after pushing");
+  m_staticTable.push_front (rule);
+  NS_LOG_DEBUG ("list has " << m_staticTable.size () << " elements after pushing");
   NS_ASSERT_MSG (m_ipv4, "Forgot to aggregate Ipv4Nat to Node");
   if (m_ipv4->GetInterfaceForAddress (rule.GetGlobalIp ()) != -1)
     {
@@ -974,10 +974,10 @@ Ipv4Nat::AddStaticRule (const Ipv4StaticNatRule& rule)
 Ipv4StaticNatRule::Ipv4StaticNatRule (Ipv4Address localip, uint16_t locprt, Ipv4Address globalip,uint16_t gloprt, uint16_t protocol)
 {
   NS_LOG_FUNCTION (this << localip << locprt << globalip << gloprt << protocol);
-  m_localaddr = localip;
-  m_globaladdr = globalip;
-  m_localport = locprt;
-  m_globalport = gloprt;
+  m_locAddr = localip;
+  m_globalAddr = globalip;
+  m_locPort = locprt;
+  m_globalPort = gloprt;
   NS_ASSERT (protocol == 0 || protocol == IPPROTO_TCP || protocol == IPPROTO_UDP);
   m_protocol = protocol;
 
@@ -987,35 +987,35 @@ Ipv4StaticNatRule::Ipv4StaticNatRule (Ipv4Address localip, uint16_t locprt, Ipv4
 Ipv4StaticNatRule::Ipv4StaticNatRule (Ipv4Address localip, Ipv4Address globalip)
 {
   NS_LOG_FUNCTION (this << localip << globalip);
-  m_localaddr = localip;
-  m_globaladdr = globalip;
-  m_localport = 0;
-  m_globalport = 0;
+  m_locAddr = localip;
+  m_globalAddr = globalip;
+  m_locPort = 0;
+  m_globalPort = 0;
   m_protocol = 0;
 }
 
 Ipv4Address
 Ipv4StaticNatRule::GetLocalIp () const
 {
-  return m_localaddr;
+  return m_locAddr;
 }
 
 Ipv4Address
 Ipv4StaticNatRule::GetGlobalIp () const
 {
-  return m_globaladdr;
+  return m_globalAddr;
 }
 
 uint16_t
 Ipv4StaticNatRule::GetLocalPort () const
 {
-  return m_localport;
+  return m_locPort;
 }
 
 uint16_t
 Ipv4StaticNatRule::GetGlobalPort () const
 {
-  return m_globalport;
+  return m_globalPort;
 }
 
 uint16_t
@@ -1027,42 +1027,42 @@ Ipv4StaticNatRule::GetProtocol () const
 Ipv4DynamicNatRule::Ipv4DynamicNatRule (Ipv4Address localnet, Ipv4Mask localmask)
 {
   NS_LOG_FUNCTION (this << localnet << localmask);
-  m_localnetwork = localnet;
-  m_localmask = localmask;
+  m_localNetwork = localnet;
+  m_localMask = localmask;
 
 }
 
 Ipv4Address
 Ipv4DynamicNatRule::GetLocalNet () const
 {
-  return m_localnetwork;
+  return m_localNetwork;
 }
 
 Ipv4Mask
 Ipv4DynamicNatRule::GetLocalMask () const
 {
-  return m_localmask;
+  return m_localMask;
 }
 
 Ipv4DynamicNatTuple::Ipv4DynamicNatTuple (Ipv4Address local, Ipv4Address global, uint16_t port, uint16_t locport)
 {
   NS_LOG_FUNCTION (this << local << global << port);
-  m_localip = local;
-  m_globalip = global;
+  m_locIp = local;
+  m_globalIp = global;
   m_port = port;
-  m_localport = locport;
+  m_locPort = locport;
 }
 
 Ipv4Address
 Ipv4DynamicNatTuple::GetLocalAddress () const
 {
-  return m_localip;
+  return m_locIp;
 }
 
 Ipv4Address
 Ipv4DynamicNatTuple::GetGlobalAddress () const
 {
-  return m_globalip;
+  return m_globalIp;
 }
 
 uint16_t
@@ -1074,7 +1074,7 @@ Ipv4DynamicNatTuple::GetTranslatedPort () const
 uint16_t
 Ipv4DynamicNatTuple::GetLocalPort () const
 {
-  return m_localport;
+  return m_locPort;
 }
 
 }

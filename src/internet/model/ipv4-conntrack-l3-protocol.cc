@@ -104,7 +104,7 @@ Ipv4ConntrackL3Protocol::RegisterPostRoutingHook ()
 }
 
 bool
-Ipv4ConntrackL3Protocol::PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
+Ipv4ConntrackL3Protocol::hasPacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
 {
   Ipv4Header ipHeader;
   packet->PeekHeader (ipHeader);
@@ -115,7 +115,7 @@ Ipv4ConntrackL3Protocol::PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTu
 }
 
 bool
-Ipv4ConntrackL3Protocol::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+Ipv4ConntrackL3Protocol::hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
 {
   inverse.SetSource (orig.GetDestination () );
   inverse.SetDestination (orig.GetSource () );

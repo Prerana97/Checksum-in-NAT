@@ -240,7 +240,7 @@ public:
     * Inverses the passed tuple. This is needed to track reply packets.
     */
 
-  bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig,
+  bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig,
                     Ptr<NetfilterConntrackL3Protocol> l3Protocol,
                     Ptr<NetfilterConntrackL4Protocol> l4Protocol);
 

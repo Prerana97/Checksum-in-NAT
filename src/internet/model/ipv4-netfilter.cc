@@ -199,7 +199,7 @@ Ipv4Netfilter::NetfilterConntrackGetTuple (Ptr<Packet> packet, uint16_t l3Number
 {
   tuple.SetProtocol (l3Number);
 
-  if (l3Protocol->PacketToTuple (packet, tuple) == false)
+  if (l3Protocol->hasPacketToTuple (packet, tuple) == false)
     {
       return false;
     }
@@ -216,7 +216,7 @@ Ipv4Netfilter::NetfilterConntrackGetTuple (Ptr<Packet> packet, uint16_t l3Number
 
   tuple.SetDirection (IP_CT_DIR_ORIGINAL);
 
-  if (l4Protocol->PacketToTuple (packet, tuple) == false)
+  if (l4Protocol->hasPacketToTuple (packet, tuple) == false)
     {
       return false;
     }
@@ -235,7 +235,7 @@ Ipv4Netfilter::NewConnection (NetfilterConntrackTuple& tuple, Ptr<NetfilterConnt
 
   NetfilterConntrackTuple replyTuple;
 
-  if (!InvertTuple (replyTuple, tuple, l3proto, l4proto))
+  if (!hasInvertTuple (replyTuple, tuple, l3proto, l4proto))
     {
       return m_hash.end ();
     }
@@ -280,7 +280,7 @@ Ipv4Netfilter::ResolveNormalConntrack (Ptr<Packet> packet, uint32_t protocolFami
 
   NetfilterConntrackTuple replyTuple;
 
-  if (!InvertTuple (replyTuple, tuple, l3Protocol, l4Protocol))
+  if (!hasInvertTuple (replyTuple, tuple, l3Protocol, l4Protocol))
     {
       return -1;
     }
@@ -408,7 +408,7 @@ Ipv4Netfilter::NetfilterConntrackConfirm (Ptr<Packet> packet)
     NetfilterConntrackTuple reply;
 
 
-    InvertTuple (reply, orig, l3proto, l4proto);
+    hasInvertTuple (reply, orig, l3proto, l4proto);
 
     currentOriginalTuple = orig;
     currentReplyTuple = reply;
@@ -463,20 +463,20 @@ Ipv4Netfilter::NetfilterConntrackConfirm (Ptr<Packet> packet)
 }
 
 bool
-Ipv4Netfilter::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig,
+Ipv4Netfilter::hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig,
                             Ptr<NetfilterConntrackL3Protocol> l3Protocol,
                             Ptr<NetfilterConntrackL4Protocol> l4Protocol)
 {
   inverse.SetProtocol (orig.GetProtocol ());
 
-  if (!l3Protocol->InvertTuple (inverse, orig))
+  if (!l3Protocol->hasInvertTuple (inverse, orig))
     {
       return false;
     }
 
   inverse.SetDirection (orig.GetDirection () == IP_CT_DIR_ORIGINAL ? IP_CT_DIR_REPLY : IP_CT_DIR_ORIGINAL);
 
-  return l4Protocol->InvertTuple (inverse, orig);
+  return l4Protocol->hasInvertTuple (inverse, orig);
 
 }
 

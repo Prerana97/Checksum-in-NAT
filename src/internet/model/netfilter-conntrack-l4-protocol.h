@@ -48,7 +48,7 @@ public:
     * Protocol specific method to convert a packet into a tuple
     * for connection tracking purposes.
     */
-  virtual bool PacketToTuple (Ptr<Packet>, NetfilterConntrackTuple&)
+  virtual bool hasPacketToTuple (Ptr<Packet>, NetfilterConntrackTuple&)
   {
     return false;
   }
@@ -60,7 +60,7 @@ public:
     *
     * Protocol specific method to invert the passed tuple
     */
-  virtual bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+  virtual bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
   {
     return false;
   }

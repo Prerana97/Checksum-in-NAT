@@ -31,7 +31,7 @@ TcpConntrackL4Protocol::TcpConntrackL4Protocol ()
 }
 
 bool
-TcpConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
+TcpConntrackL4Protocol::hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
 {
   TcpHeader tcpHeader;
   p->PeekHeader (tcpHeader);
@@ -44,7 +44,7 @@ TcpConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& t
 }
 
 bool
-TcpConntrackL4Protocol::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+TcpConntrackL4Protocol::hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
 {
   inverse.SetSourcePort (orig.GetDestinationPort () );
   inverse.SetDestinationPort (orig.GetSourcePort () );

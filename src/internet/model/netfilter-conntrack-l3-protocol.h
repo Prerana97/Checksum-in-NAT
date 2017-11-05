@@ -35,7 +35,7 @@ class Packet;
   * \brief Base class for Netfilter Layer 3 m_protocol helper
   *
   * Every Layer 3 m_protocol helper should inherit from this class
-  * and implement methods PacketToTuple and InvertTuple
+  * and implement methods hasPacketToTuple and hasInvertTuple
   */
 
 class NetfilterConntrackL3Protocol : public RefCountBase
@@ -49,7 +49,7 @@ public:
     * Protocol specific method to convert a packet into a tuple
     * for connection tracking purposes.
     */
-  virtual bool PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
+  virtual bool hasPacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
   {
     return false;
   }
@@ -61,7 +61,7 @@ public:
     *
     * Protocol specific method to invert the passed tuple
     */
-  virtual bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+  virtual bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
   {
     return false;
   }

@@ -30,13 +30,13 @@ UdpConntrackL4Protocol::UdpConntrackL4Protocol ()
 }
 
 bool
-UdpConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
+UdpConntrackL4Protocol::hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple)
 {
   NS_LOG_FUNCTION ( this << p );
   UdpHeader udpHeader;
-  bool found = p->PeekHeader (udpHeader);
+  bool isfound = p->PeekHeader (udpHeader);
 
-  if (!found)
+  if (!isfound)
     {
       NS_LOG_DEBUG (":: Errrr, No UDP Header :: ");
     }
@@ -49,7 +49,7 @@ UdpConntrackL4Protocol::PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& t
 }
 
 bool
-UdpConntrackL4Protocol::InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
+UdpConntrackL4Protocol::hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
 {
   inverse.SetSourcePort (orig.GetDestinationPort () );
   inverse.SetDestinationPort (orig.GetSourcePort () );

@@ -36,8 +36,8 @@ class UdpConntrackL4Protocol : public NetfilterConntrackL4Protocol
 {
 public:
   UdpConntrackL4Protocol ();
-  bool PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple);
-  bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
+  bool hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple);
+  bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
 
 private:
 };

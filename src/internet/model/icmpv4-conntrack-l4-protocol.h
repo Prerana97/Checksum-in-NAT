@@ -35,8 +35,8 @@ class Icmpv4ConntrackL4Protocol : public NetfilterConntrackL4Protocol
 {
 public:
   Icmpv4ConntrackL4Protocol ();
-  bool PacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple);
-  bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
+  bool hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple);
+  bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
 
 private:
 };

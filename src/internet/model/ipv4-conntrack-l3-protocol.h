@@ -50,8 +50,8 @@ private:
   uint32_t Ipv4ConntrackInHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
   uint32_t Ipv4ConntrackOutHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
   uint32_t Ipv4ConntrackPostRoutingHook (Hooks_t hookNumber, Ptr<Packet> p, Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
-  bool PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple);
-  bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
+  bool hasPacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple);
+  bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
 
 };
 
