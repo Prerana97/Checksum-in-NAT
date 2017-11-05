@@ -90,6 +90,7 @@ private:
   uint8_t m_l4Protocol;
   std::string m_protocolName;
 };
+
 }
 
 #endif /* NETFILTER_CONNTRACK_L4_PROTOCOL */

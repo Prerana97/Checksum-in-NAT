@@ -37,6 +37,7 @@ public:
 private:
   TupleHash m_tupleHash;
 };
+
 }
 
 #endif /* NETFILTER_TUPLE_HASH */

@@ -54,6 +54,7 @@ private:
   bool InvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
 
 };
+
 }
 
 #endif /* IPV4_CONNTRACK_L3_PROTOCOL */

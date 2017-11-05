@@ -1,26 +1,24 @@
-// -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*-
-//
-// Copyright (c) 2006 Georgia Tech Research Corporation
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License version 2 as
-// published by the Free Software Foundation;
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
-// Author: George F. Riley<riley@ece.gatech.edu>
-//
-
+/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*-
+/*
+ * Copyright (c) 2006 Georgia Tech Research Corporation
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: George F. Riley<riley@ece.gatech.edu>
+ */
 #ifndef IPV4_L3_PROTOCOL_H
 #define IPV4_L3_PROTOCOL_H
-
 
 #include <list>
 #include <map>
@@ -144,7 +142,7 @@ public:
   void SetDefaultTtl (uint8_t ttl);
 
   /**
-   * Lower layer calls this method after calling L3Demux::Lookup
+   * \Lower layer calls this method after calling L3Demux::Lookup
    * The ARP subclass needs to know from which NetDevice this
    * packet is coming to:
    *    - implement a per-NetDevice ARP cache
@@ -228,7 +226,7 @@ public:
   bool IsUnicast (Ipv4Address ad) const;
 
   /**
-   * TracedCallback signature for packet send, forward, or local deliver events.
+   * \TracedCallback signature for packet send, forward, or local deliver events.
    *
    * \param [in] header The Ipv6Header.
    * \param [in] packet The packet.
@@ -238,7 +236,7 @@ public:
     (const Ipv4Header & header, Ptr<const Packet> packet, uint32_t interface);
    
   /**
-   * TracedCallback signature for packet transmission or reception events.
+   * \TracedCallback signature for packet transmission or reception events.
    *
    * \param [in] header The Ipv4Header.
    * \param [in] packet The packet.
@@ -251,7 +249,7 @@ public:
     (Ptr<const Packet> packet, Ptr<Ipv4> ipv4, uint32_t interface);
 
   /**
-   * TracedCallback signature for packet drop events.
+   * \TracedCallback signature for packet drop events.
    *
    * \param [in] header The Ipv4Header.
    * \param [in] packet The packet.
@@ -270,7 +268,7 @@ protected:
 
   virtual void DoDispose (void);
   /**
-   * This function will notify other components connected to the node that a new stack member is now connected
+   * \This function will notify other components connected to the node that a new stack member is now connected
    * This will be used to notify Layer 3 protocol of layer 4 protocol stack to connect them together.
    */
   virtual void NotifyNewAggregate ();

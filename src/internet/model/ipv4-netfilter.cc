@@ -59,25 +59,35 @@ Ipv4Netfilter::Ipv4Netfilter ()
 {
   NS_LOG_FUNCTION_NOARGS ();
 
-  /* Create callback chains for all of the hooks */
+  /**
+   * \Create callback chains for all of the hooks
+   */
   for (int i = 0; i < NF_INET_NUMHOOKS; i++)
     {
       m_netfilterHooks[i] = NetfilterCallbackChain ();
     }
 
-  /* Create and register Ipv4 connection tracking module */
+  /**
+   * \Create and register Ipv4 connection tracking module
+   */
   Ptr<Ipv4ConntrackL3Protocol> ipv4 = Create<Ipv4ConntrackL3Protocol> ();
   this->RegisterL3Protocol (ipv4);
 
-  /* Create and register TCP connection tracking module */
+  /**
+   * \Create and register TCP connection tracking module 
+   */
   Ptr<TcpConntrackL4Protocol> tcp = Create<TcpConntrackL4Protocol> ();
   this->RegisterL4Protocol (tcp);
 
-  /* Create and register UDP connection tracking module */
+  /**
+   * \Create and register UDP connection tracking module
+   */
   Ptr<UdpConntrackL4Protocol> udp = Create<UdpConntrackL4Protocol> ();
   this->RegisterL4Protocol (udp);
 
-  /* Create and register ICMP connection tracking module */
+  /** 
+   * \Create and register ICMP connection tracking module 
+   */
   Ptr<Icmpv4ConntrackL4Protocol> icmpv4 = Create<Icmpv4ConntrackL4Protocol> ();
   this->RegisterL4Protocol (icmpv4);
 

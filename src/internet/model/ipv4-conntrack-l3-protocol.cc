@@ -107,14 +107,10 @@ bool
 Ipv4ConntrackL3Protocol::PacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
 {
   Ipv4Header ipHeader;
-
   packet->PeekHeader (ipHeader);
-
   tuple.SetSource (ipHeader.GetSource ());
   tuple.SetDestination (ipHeader.GetDestination ());
-
   NS_LOG_DEBUG ("Ipv4 Packet To Tuple: " << "( " << tuple.GetSource () << "," << tuple.GetSourcePort () << "," << tuple.GetDestination () << "," << tuple.GetDestinationPort () << ")" );
-
   return true;
 }
 
@@ -125,7 +121,5 @@ Ipv4ConntrackL3Protocol::InvertTuple (NetfilterConntrackTuple& inverse, Netfilte
   inverse.SetDestination (orig.GetSource () );
   return true;
 }
-
-
 
 }

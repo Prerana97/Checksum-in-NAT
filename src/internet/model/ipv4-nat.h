@@ -47,55 +47,48 @@ class NetDevice;
 class OutputStreamWrapper;
 
 /**
-  * \brief Implementation of the Static NAT Rule.
-  *
-  * This implements the basic static NAT rule structure with some
-  * methods to access their attributes.
-  */
-
+ * \brief Implementation of the Static NAT Rule.
+ *
+ * This implements the basic static NAT rule structure with some
+ * methods to access their attributes.
+ */
 class Ipv4StaticNatRule
 {
 public:
-/**
-  *\brief Initialization of the static NAT rule with specific protcol port restricitions.
-  *\param localip The ip address of the host on the local network
-  *\param locprt The source port number of the host on the local network
-  *\param globalip The translated ip address on the global network
-  *\param gloprt The translated source port number of the host on the global network
-  *\param protocol The protocol used in the connection
-  */
+  /**
+   * \brief Initialization of the static NAT rule with specific protcol port restricitions.
+   * \param localip The ip address of the host on the local network
+   * \param locprt The source port number of the host on the local network
+   * \param globalip The translated ip address on the global network
+   * \param gloprt The translated source port number of the host on the global network
+   * \param protocol The protocol used in the connection
+   */
   Ipv4StaticNatRule (Ipv4Address localip, uint16_t locprt, Ipv4Address globalip,uint16_t gloprt, uint16_t protocol);
-
-/**
-  *\brief This version is used for no port restrictions
-  *\param localip The ip address of the host on the local network
-  *\param globalip The translated ip address on the global network
-  */
+  /**
+   * \brief This version is used for no port restrictions
+   * \param localip The ip address of the host on the local network
+   * \param globalip The translated ip address on the global network
+   */
   Ipv4StaticNatRule (Ipv4Address localip, Ipv4Address globalip);
-
-/**
-  *\return The local host Ipv4Address
-  */
+  /**
+   * \return The local host Ipv4Address
+   */
   Ipv4Address GetLocalIp () const;
-
-/**
-  *\return The translated global Ipv4Address
-  */
+  /**
+   * \return The translated global Ipv4Address
+   */
   Ipv4Address GetGlobalIp () const;
-
-/**
-  *\return The source port number of the host on the local network
-  */
+  /**
+   * \return The source port number of the host on the local network
+   */
   uint16_t GetLocalPort () const;
-
-/**
-  *\return The translated source port number of the host on the global network
+ /**
+  * \return The translated source port number of the host on the global network
   */
   uint16_t GetGlobalPort () const;
-
-/**
-  *\return The Protocol the rule is specific to.
-  */
+  /**
+   * \return The Protocol the rule is specific to.
+   */
   uint16_t GetProtocol () const;
 
 
@@ -120,22 +113,19 @@ private:
 class Ipv4DynamicNatRule
 {
 public:
-/**
-  *\brief Used to initialize the network on the inside that is going to be translated
-  *\param localnet The local network ip to be translated
-  *\param localmask The mask of the local network
-  */
-
+  /**
+   * \brief Used to initialize the network on the inside that is going to be translated
+   * \param localnet The local network ip to be translated
+   * \param localmask The mask of the local network
+   */
   Ipv4DynamicNatRule (Ipv4Address localnet, Ipv4Mask localmask);
-
-/**
-  *\return The local network address
-  */
+  /**
+   * \return The local network address
+   */
   Ipv4Address GetLocalNet () const;
-
-/**
-  *\return The local network mask
-  */
+  /**
+   * \return The local network mask
+   */
   Ipv4Mask GetLocalMask () const;
 
 private:
@@ -154,27 +144,27 @@ private:
 class Ipv4DynamicNatTuple
 {
 public:
-/**
-  *\brief Used to initialize the Dynamic NAT translated tuple entry.
-  *\param local The local host ip that is translated
-  *\param global The global ip that the host has been translated to
-  *\param port The source port that the local host has translated to
-  */
+  /**
+   * \brief Used to initialize the Dynamic NAT translated tuple entry.
+   * \param local The local host ip that is translated
+   * \param global The global ip that the host has been translated to
+   * \param port The source port that the local host has translated to
+   */
   Ipv4DynamicNatTuple (Ipv4Address local, Ipv4Address global, uint16_t port,uint16_t locport);
 
-/**
-  *\return The local host Ipv4Address
-  */
+  /**
+   * \return The local host Ipv4Address
+   */
   Ipv4Address GetLocalAddress () const;
 
-/**
-  *\return The translated global Ipv4Address
-  */
+  /**
+   * \return The translated global Ipv4Address
+   */
   Ipv4Address GetGlobalAddress () const;
 
-/**
-  *\return The translated source port number of the host on the global network
-  */
+  /**
+   * \return The translated source port number of the host on the global network
+   */
   uint16_t GetTranslatedPort () const;
 
   uint16_t GetLocalPort () const;
@@ -293,9 +283,8 @@ public:
    */
   void PrintTable (Ptr<OutputStreamWrapper> stream) const;
 
-
-/**
-   *\rekha paul
+  /**
+   * \rekha paul
    * \brief Add the address pool for Dynamic NAT
    *
    * \param Ipv4address first param for netid, second parameter for setting Base Address
@@ -341,72 +330,71 @@ private:
   Ptr<Ipv4> m_ipv4;
 
   /**
-    * \param hook The hook number e.g., NF_INET_PRE_ROUTING
-    * \param p Packet that is handed over to the callback chain for this hook
-    * \param in NetDevice which received the packet
-    * \param out The outgoing NetDevice
-    * \param ccb If not NULL, this callback will be invoked once the hook
-    * callback chain has finished processing
-    *
-    * \returns Netfilter verdict for the Packet. e.g., NF_ACCEPT, NF_DROP etc.
-    *
-    *  This method is invoke to perform NAT of the packet at the NF_INET_PRE_ROUTING stage.
-    */
+   * \param hook The hook number e.g., NF_INET_PRE_ROUTING
+   * \param p Packet that is handed over to the callback chain for this hook
+   * \param in NetDevice which received the packet
+   * \param out The outgoing NetDevice
+   * \param ccb If not NULL, this callback will be invoked once the hook
+   * callback chain has finished processing
+   *
+   * \returns Netfilter verdict for the Packet. e.g., NF_ACCEPT, NF_DROP etc.
+   *
+   *  This method is invoke to perform NAT of the packet at the NF_INET_PRE_ROUTING stage.
+   */
 
   uint32_t DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                             Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
 
   /**
-     * \param hook The hook number e.g., NF_INET_PRE_ROUTING
-     * \param p Packet that is handed over to the callback chain for this hook
-     * \param in NetDevice which received the packet
-     * \param out The outgoing NetDevice
-     * \param ccb If not NULL, this callback will be invoked once the hook
-     * callback chain has finished processing
-     *
-     * \returns Netfilter verdict for the Packet. e.g., NF_ACCEPT, NF_DROP etc.
-     *
-     *  This method is invoke to perform NAT of the packet at the NF_INET_POST_ROUTING stage.
-     */
+   * \param hook The hook number e.g., NF_INET_PRE_ROUTING
+   * \param p Packet that is handed over to the callback chain for this hook
+   * \param in NetDevice which received the packet
+   * \param out The outgoing NetDevice
+   * \param ccb If not NULL, this callback will be invoked once the hook
+   * callback chain has finished processing
+   * \returns Netfilter verdict for the Packet. e.g., NF_ACCEPT, NF_DROP etc.
+   *
+   *  This method is invoke to perform NAT of the packet at the NF_INET_POST_ROUTING stage.
+   */
 
   uint32_t DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                              Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
   /**
-  *\return The Global Pool Ip address
-  */
+   * \return The Global Pool Ip address
+   */
   Ipv4Address GetAddressPoolIp () const;
 
   /**
-   *\Generates Next GlobalIp For Dynamic Nat
-   *\This method is invoked by GetNewOutsidePort() when pool of port is exhausted till last globalip of given pool of globalip is obtained.
+   * \Generates Next GlobalIp For Dynamic Nat
+   * \This method is invoked by GetNewOutsidePort() when pool of port is exhausted till last globalip of given pool of globalip is obtained.
    */
 
   void GetNewAddressPoolIp ();
 
 
   /**
-  *\return The Global Pool NetMask
-  */
+   * \return The Global Pool NetMask
+   */
   Ipv4Mask GetAddressPoolMask () const;
 
   /**
-  *\return The start port of the port pool
-  */
+   * \return The start port of the port pool
+   */
   uint16_t GetStartPort () const;
 
   /**
-  *\return The end port of the port pool
-  */
+   * \return The end port of the port pool
+   */
   uint16_t GetEndPort () const;
 
   /**
-  *\return The current port value for the dynamic nat translation
-  */
+   * \return The current port value for the dynamic nat translation
+   */
   uint16_t GetCurrentPort () const;
 
   /**
-  *\return The a new port to translate to from the port pool
-  */
+   * \return The a new port to translate to from the port pool
+   */
   uint16_t GetNewOutsidePort ();
 
   StaticNatRules m_statictable;
