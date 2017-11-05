@@ -65,7 +65,6 @@ typedef Callback<uint32_t, Hooks_t, Ptr<Packet>, Ptr<NetDevice>, Ptr<NetDevice>,
   * number is needed to identify the hook and thus the callback chain
   * where the hook function should be inserted
   */
-
 class Ipv4NetfilterHook
 {
 public:

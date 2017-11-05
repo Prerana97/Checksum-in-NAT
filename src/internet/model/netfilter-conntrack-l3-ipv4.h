@@ -36,6 +36,7 @@ public:
 private:
   NetfilterConntrackL3Protocol ipv4;
 };
+
 }
 
 #endif /* NETFILTER_CONNTRACK_L3_IPV4 */

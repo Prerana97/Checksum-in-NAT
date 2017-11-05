@@ -35,7 +35,22 @@ class TcpConntrackL4Protocol : public NetfilterConntrackL4Protocol
 {
 public:
   TcpConntrackL4Protocol ();
+  /**
+   * \param p Packet that should be converted to a tuple
+   * \param tuple The created tuple is stored here
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to convert a packet into a tuple
+   * for connection tracking purposes.
+   */
   bool hasPacketToTuple (Ptr<Packet> p, NetfilterConntrackTuple& tuple);
+  /**
+   * \param inverse The resulting inverse of the provided tuple
+   * \param orig The original tuple that should be inverted
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to invert the passed tuple
+   */
   bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig);
 
 private:

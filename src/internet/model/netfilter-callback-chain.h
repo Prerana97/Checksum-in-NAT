@@ -38,8 +38,21 @@ class NetfilterCallbackChain
 {
 public:
   NetfilterCallbackChain ();
+  /**
+   * \param hook The hook function to be inserted
+   *
+   * Inserts the hook function at the specified hook
+   * using the priority given in the hook datastructure.
+   */
   void Insert (const Ipv4NetfilterHook& hook);
   std::list<Ipv4NetfilterHook>::iterator Find (const Ipv4NetfilterHook& hook);
+  /**
+    * \param hook The hook function to be removed
+    *
+    * Removes the hook function from the specified hook
+    * The hook function is removed from the callback chain for
+    * that hook.
+    */
   void Remove (const Ipv4NetfilterHook& hook);
   Ipv4NetfilterHook Front ();
   uint32_t Size () const;

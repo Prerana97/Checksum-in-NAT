@@ -32,35 +32,34 @@ namespace ns3 {
 class Packet;
 
 /**
-  * \brief Base class for Netfilter Layer 3 m_protocol helper
-  *
-  * Every Layer 3 m_protocol helper should inherit from this class
-  * and implement methods hasPacketToTuple and hasInvertTuple
-  */
-
+ * \brief Base class for Netfilter Layer 3 m_protocol helper
+ *
+ * Every Layer 3 m_protocol helper should inherit from this class
+ * and implement methods hasPacketToTuple and hasInvertTuple
+ */
 class NetfilterConntrackL3Protocol : public RefCountBase
 {
 public:
   /**
-    * \param packet Packet that should be converted to a tuple
-    * \param tuple The created tuple is stored here
-    * \returns true if success, false otherwise
-    *
-    * Protocol specific method to convert a packet into a tuple
-    * for connection tracking purposes.
-    */
+   * \param packet Packet that should be converted to a tuple
+   * \param tuple The created tuple is stored here
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to convert a packet into a tuple
+   * for connection tracking purposes.
+   */
   virtual bool hasPacketToTuple (Ptr<Packet> packet, NetfilterConntrackTuple& tuple)
   {
     return false;
   }
 
   /**
-    * \param inverse The resulting inverse of the provided tuple
-    * \param orig The original tuple that should be inverted
-    * \returns true if success, false otherwise
-    *
-    * Protocol specific method to invert the passed tuple
-    */
+   * \param inverse The resulting inverse of the provided tuple
+   * \param orig The original tuple that should be inverted
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to invert the passed tuple
+   */
   virtual bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
   {
     return false;

@@ -33,6 +33,12 @@ namespace ns3 {
 
 class Packet;
 
+/**
+ * \brief Base class for Netfilter Layer 4 m_protocol helper
+ *
+ * Every Layer 4 m_protocol helper should inherit from this class
+ * and implement methods hasPacketToTuple and hasInvertTuple
+ */
 class NetfilterConntrackL4Protocol : public RefCountBase
 {
 public:
@@ -41,45 +47,45 @@ public:
   PacketVerdict_t PacketVerdict;
 
   /**
-    * \param packet Packet that should be converted to a tuple
-    * \param tuple The created tuple is stored here
-    * \returns true if success, false otherwise
-    *
-    * Protocol specific method to convert a packet into a tuple
-    * for connection tracking purposes.
-    */
+   * \param packet Packet that should be converted to a tuple
+   * \param tuple The created tuple is stored here
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to convert a packet into a tuple
+   * for connection tracking purposes.
+   */
   virtual bool hasPacketToTuple (Ptr<Packet>, NetfilterConntrackTuple&)
   {
     return false;
   }
 
   /**
-    * \param inverse The resulting inverse of the provided tuple
-    * \param orig The original tuple that should be inverted
-    * \returns true if success, false otherwise
-    *
-    * Protocol specific method to invert the passed tuple
-    */
+   * \param inverse The resulting inverse of the provided tuple
+   * \param orig The original tuple that should be inverted
+   * \returns true if success, false otherwise
+   *
+   * Protocol specific method to invert the passed tuple
+   */
   virtual bool hasInvertTuple (NetfilterConntrackTuple& inverse, NetfilterConntrackTuple& orig)
   {
     return false;
   }
 
   /**
-    * \returns Layer 4 protocol this helpers belongs to e.g., IPPROTO_TCP
-    *
-    * Returns the Layer 4 protocol number that this helper belongs to
-    */
+   * \returns Layer 4 protocol this helpers belongs to e.g., IPPROTO_TCP
+   *
+   * Returns the Layer 4 protocol number that this helper belongs to
+   */
   uint16_t GetL4Protocol ()
   {
     return m_l4Protocol;
   }
 
   /**
-    * \param protocol The layer 4 protocol
-    *
-    * Set the layer 4 protocol that this helper belongs to.
-    */
+   * \param protocol The layer 4 protocol
+   *
+   * Set the layer 4 protocol that this helper belongs to.
+   */
   void SetL4Protocol (uint8_t protocol)
   {
     m_l4Protocol = protocol;

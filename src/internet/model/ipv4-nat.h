@@ -140,7 +140,6 @@ private:
   * This implements the basic Dynamic NAT tuple entry structure with some
   * methods to access their attributes.
   */
-
 class Ipv4DynamicNatTuple
 {
 public:
@@ -184,7 +183,6 @@ private:
   * This implements NAT functionality over a Netfilter framework.
   * The NAT is of two major types (static and dynamic).
   */
-
 class Ipv4Nat : public Object
 {
 public:
@@ -200,9 +198,7 @@ public:
    * Adds a NAT rule to the lists that have been dedicated for the specific types
    * of rules.
    */
-
   void AddDynamicRule (const Ipv4DynamicNatRule& rule);
-
   /**
    * \brief Add rules to the Static NAT Table.
    *
@@ -211,7 +207,6 @@ public:
    * Adds a Static NAT rule to the lists that have been dedicated for the specific types
    * of rules.
    */
-
   void AddStaticRule (const Ipv4StaticNatRule& rule);
 
   /**
@@ -258,7 +253,6 @@ public:
    * Returns the specific Dynamic NAT tuple that is stored on the given index.
    */
   Ipv4DynamicNatTuple GetDynamicTuple (uint32_t index) const;
-
 
   /**
    * \param index index in table specifying rule to remove
@@ -341,7 +335,6 @@ private:
    *
    *  This method is invoke to perform NAT of the packet at the NF_INET_PRE_ROUTING stage.
    */
-
   uint32_t DoNatPreRouting (Hooks_t hookNumber, Ptr<Packet> p,
                             Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
 
@@ -356,7 +349,6 @@ private:
    *
    *  This method is invoke to perform NAT of the packet at the NF_INET_POST_ROUTING stage.
    */
-
   uint32_t DoNatPostRouting (Hooks_t hookNumber, Ptr<Packet> p,
                              Ptr<NetDevice> in, Ptr<NetDevice> out, ContinueCallback& ccb);
   /**

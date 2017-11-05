@@ -42,8 +42,13 @@ public:
   bool isSourceEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
   bool isDestinationEqual (NetfilterConntrackTuple t1, NetfilterConntrackTuple t2);
   NetfilterConntrackTuple Invert ();
-
+  /**
+   * \return Source Ipv4Address of the route
+   */
   Ipv4Address GetSource () const;
+  /**
+   * \return Destination Ipv4Address of the route
+   */
   Ipv4Address GetDestination () const;
   uint16_t GetSourcePort () const;
   uint16_t GetDestinationPort () const;
@@ -51,9 +56,14 @@ public:
   uint16_t GetDestinationProtocol () const;
   uint8_t GetDirection () const;
   uint16_t GetProtocol ();
-
+  /**
+   * \param source Source Ipv4Address
+   */
   void SetSource (Ipv4Address source);
   void SetSourcePort (uint16_t source);
+  /**
+   * \param destination Destination Ipv4Address
+   */
   void SetDestination (Ipv4Address destination);
   void SetDestinationPort (uint16_t destination);
   void SetProtocol (uint16_t protocol);
