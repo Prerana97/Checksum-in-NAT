@@ -182,7 +182,6 @@ Ipv4NatAddRemoveRulesStatic::DoRun (void)
   Ipv4StaticNatRule returnRule = nat->GetStaticRule (0);
   NS_TEST_ASSERT_MSG_EQ (returnRule.GetLocalIp (), Ipv4Address ("192.168.0.4"), "fetching from list failed");
 
-
 }
 
 //Test case for Dynamic NAT rules
@@ -238,7 +237,7 @@ Ipv4NatAddRemoveRulesDynamic::DoRun (void)
   
 }
 
-//Test case for Post-Routing
+//Test case for Post-Routing (Static)
 void
 Ipv4NatStaticHeaderPostChanging::DoRun (void)
 {
@@ -299,7 +298,7 @@ Ipv4NatStaticHeaderPostChanging::DoRun (void)
   NS_TEST_EXPECT_MSG_EQ (address, "203.0.113.103", "Mapping Failed");
 }
 
-//Test case for Pre-Routing
+//Test case for Pre-Routing (Static)
 void
 Ipv4NatStaticHeaderPreChanging::DoRun (void) 
 {
@@ -360,7 +359,7 @@ Ipv4NatStaticHeaderPreChanging::DoRun (void)
   NS_TEST_EXPECT_MSG_EQ (address, Ipv4Address ("192.168.0.4"), "Mapping Failed");
 }
 
-//Test case for Chesksum in Post-Routing
+//Test case for Checksum in Post-Routing
 void
 Ipv4NatStaticHeaderChecksum::DoRun (void) 
 {
