@@ -360,10 +360,7 @@ private:
    * \Generates Next GlobalIp For Dynamic Nat
    * \This method is invoked by GetNewOutsidePort() when pool of port is exhausted till last globalip of given pool of globalip is obtained.
    */
-
   void GetNewAddressPoolIp ();
-
-
   /**
    * \return The Global Pool NetMask
    */

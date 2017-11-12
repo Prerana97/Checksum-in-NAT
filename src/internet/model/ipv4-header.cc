@@ -461,7 +461,6 @@ Ipv4Header::Deserialize (Buffer::Iterator start)
   m_source.Set (i.ReadNtohU32 ());
   m_destination.Set (i.ReadNtohU32 ());
   m_headerSize = headerSize;
-
   if (m_calcChecksum) 
     {
       i = start;

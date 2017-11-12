@@ -81,8 +81,8 @@ Ipv4Nat::Ipv4Nat () //Constructor : Called whenever the nat is installed on any 
 
 }
 
-/*
- * This method is called by AddAgregate and completes the aggregation
+/**
+ * \This method is called by AddAgregate and completes the aggregation
  * by hooking to the Ipv4Netfilter
  */
 void
@@ -239,10 +239,8 @@ Ipv4Nat::RemoveDynamicRule (uint32_t index)
  *
  * \param stream the ostream the NAT table is printed to
  */
-
 void
 Ipv4Nat::PrintTable (Ptr<OutputStreamWrapper> stream) const
-
 {
   NS_LOG_FUNCTION (this);
   std::ostream* os = stream->GetStream ();
