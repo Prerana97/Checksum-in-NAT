@@ -133,9 +133,9 @@ Ipv4NatStaticHeaderChecksum::~Ipv4NatStaticHeaderChecksum ()
 {
 }
 
-
+//Test case for Static NAT rules
 void
-Ipv4NatAddRemoveRulesStatic::DoRun (void) // Static NAT
+Ipv4NatAddRemoveRulesStatic::DoRun (void) 
 {
   // Create single NAT test node with outer interface of 203.0.113.1 and 
   // inner interface of 192.168.0.1
@@ -185,8 +185,9 @@ Ipv4NatAddRemoveRulesStatic::DoRun (void) // Static NAT
 
 }
 
+//Test case for Dynamic NAT rules
 void
-Ipv4NatAddRemoveRulesDynamic::DoRun (void) // Dynamic
+Ipv4NatAddRemoveRulesDynamic::DoRun (void) 
 {
   // Create single NAT test node with outer interface of 203.0.113.1 and 
   // inner interface of 192.168.0.1
@@ -195,7 +196,8 @@ Ipv4NatAddRemoveRulesDynamic::DoRun (void) // Dynamic
   stack.Install (testNode);
 
   Ptr<SimpleNetDevice> rxDev1, rxDev2;
-  { // first, outside interface
+  { 
+    // first, outside interface
     rxDev1 = CreateObject<SimpleNetDevice> ();
     rxDev1->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev1);
@@ -205,7 +207,8 @@ Ipv4NatAddRemoveRulesDynamic::DoRun (void) // Dynamic
     ipv4->AddAddress (netdev_idx, ipv4Addr);
     ipv4->SetUp (netdev_idx);
   }
-  { // second, inside interface
+  { 
+    // second, inside interface
     rxDev2 = CreateObject<SimpleNetDevice> ();
     rxDev2->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev2);
@@ -235,8 +238,9 @@ Ipv4NatAddRemoveRulesDynamic::DoRun (void) // Dynamic
   
 }
 
+//Test case for Post-Routing
 void
-Ipv4NatStaticHeaderPostChanging::DoRun (void) // Post-Routing
+Ipv4NatStaticHeaderPostChanging::DoRun (void)
 {
   // Create single NAT test node with outer interface of 203.0.113.1 and 
   // inner interface of 192.168.0.1
@@ -246,7 +250,8 @@ Ipv4NatStaticHeaderPostChanging::DoRun (void) // Post-Routing
   Ptr<Ipv4> ipv4;
 
   Ptr<SimpleNetDevice> rxDev1, rxDev2;
-  { // first, outside interface
+  { 
+    // first, outside interface
     rxDev1 = CreateObject<SimpleNetDevice> ();
     rxDev1->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev1);
@@ -256,7 +261,8 @@ Ipv4NatStaticHeaderPostChanging::DoRun (void) // Post-Routing
     ipv4->AddAddress (netdev_idx, ipv4Addr);
     ipv4->SetUp (netdev_idx);
   }
-  { // second, inside interface
+  { 
+    // second, inside interface
     rxDev2 = CreateObject<SimpleNetDevice> ();
     rxDev2->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev2);
@@ -276,9 +282,7 @@ Ipv4NatStaticHeaderPostChanging::DoRun (void) // Post-Routing
   Ipv4StaticNatRule rule1 (Ipv4Address ("192.168.0.3"), Ipv4Address ("203.0.113.103"));
   nat->AddStaticRule (rule1);
   NS_TEST_ASSERT_MSG_EQ (nat->GetNStaticRules (), 1, "adding to list failed");
-  /**
-   * \Packet is created
-   */
+  //Packet is created
   Ptr<Packet> p = Create<Packet> (123); 
   Ipv4Header ipHeader;
   ipHeader.SetSource (Ipv4Address ("192.168.0.3"));
@@ -295,8 +299,9 @@ Ipv4NatStaticHeaderPostChanging::DoRun (void) // Post-Routing
   NS_TEST_EXPECT_MSG_EQ (address, "203.0.113.103", "Mapping Failed");
 }
 
+//Test case for Pre-Routing
 void
-Ipv4NatStaticHeaderPreChanging::DoRun (void) // Pre-Routing
+Ipv4NatStaticHeaderPreChanging::DoRun (void) 
 {
   // Create single NAT test node with outer interface of 203.0.113.1 and 
   // inner interface of 192.168.0.1
@@ -306,7 +311,8 @@ Ipv4NatStaticHeaderPreChanging::DoRun (void) // Pre-Routing
   Ptr<Ipv4> ipv4;
 
   Ptr<SimpleNetDevice> rxDev1, rxDev2;
-  { // first, outside interface
+  { 
+    // first, outside interface
     rxDev1 = CreateObject<SimpleNetDevice> ();
     rxDev1->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev1);
@@ -316,7 +322,8 @@ Ipv4NatStaticHeaderPreChanging::DoRun (void) // Pre-Routing
     ipv4->AddAddress (netdev_idx, ipv4Addr);
     ipv4->SetUp (netdev_idx);
   }
-  { // second, inside interface
+  {
+    // second, inside interface
     rxDev2 = CreateObject<SimpleNetDevice> ();
     rxDev2->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev2);
@@ -336,9 +343,7 @@ Ipv4NatStaticHeaderPreChanging::DoRun (void) // Pre-Routing
   Ipv4StaticNatRule rule1 (Ipv4Address ("192.168.0.4"),Ipv4Address ("203.0.113.104"));
   nat->AddStaticRule (rule1);
   NS_TEST_ASSERT_MSG_EQ (nat->GetNStaticRules (), 1, "adding to list failed");
-  /**
-   * \Packet is created
-   */
+  //Packet is created
   Ptr<Packet> p = Create<Packet> (123); 
   Ipv4Header ipHeader;
   ipHeader.SetDestination (Ipv4Address ("203.0.113.104"));
@@ -355,8 +360,9 @@ Ipv4NatStaticHeaderPreChanging::DoRun (void) // Pre-Routing
   NS_TEST_EXPECT_MSG_EQ (address, Ipv4Address ("192.168.0.4"), "Mapping Failed");
 }
 
+//Test case for Chesksum in Post-Routing
 void
-Ipv4NatStaticHeaderChecksum::DoRun (void) // Checksum in Post Routing
+Ipv4NatStaticHeaderChecksum::DoRun (void) 
 {
   GlobalValue::Bind("ChecksumEnabled",BooleanValue(true));
   // Create single NAT test node with outer interface of 203.0.113.1 and 
@@ -367,7 +373,8 @@ Ipv4NatStaticHeaderChecksum::DoRun (void) // Checksum in Post Routing
   Ptr<Ipv4> ipv4;
 
   Ptr<SimpleNetDevice> rxDev1, rxDev2;
-  { // first, outside interface
+  { 
+    // first, outside interface
     rxDev1 = CreateObject<SimpleNetDevice> ();
     rxDev1->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev1);
@@ -377,7 +384,8 @@ Ipv4NatStaticHeaderChecksum::DoRun (void) // Checksum in Post Routing
     ipv4->AddAddress (netdev_idx, ipv4Addr);
     ipv4->SetUp (netdev_idx);
   }
-  { // second, inside interface
+  {
+    // second, inside interface
     rxDev2 = CreateObject<SimpleNetDevice> ();
     rxDev2->SetAddress (Mac48Address::ConvertFrom (Mac48Address::Allocate ()));
     testNode->AddDevice (rxDev2);
@@ -397,9 +405,7 @@ Ipv4NatStaticHeaderChecksum::DoRun (void) // Checksum in Post Routing
   Ipv4StaticNatRule rule1 (Ipv4Address ("192.168.0.3"), Ipv4Address ("203.0.113.103"));
   nat->AddStaticRule (rule1);
   NS_TEST_ASSERT_MSG_EQ (nat->GetNStaticRules (), 1, "adding to list failed");
-  /**
-   * \Packet is created
-   */
+  //Packet is created
   Ptr<Packet> p = Create<Packet> (123); 
   Ipv4Header ipHeader;
   ipHeader.SetSource (Ipv4Address ("192.168.0.3"));
@@ -426,9 +432,7 @@ Ipv4NatStaticHeaderChecksum::DoRun (void) // Checksum in Post Routing
 
 }
 
-/**
- * \Class for Static NAT rules
- */
+//Class for Static NAT rules
 class Ipv4NatStatic : public TestCase
 {
   public:
@@ -453,9 +457,7 @@ Ipv4NatStatic::DoRun (void)
 {
 }
 
-/**
- * \Class for Dynamic NAT rules
- */
+//Class for Dynamic NAT rules
 class Ipv4NatDynamic : public TestCase
 {
   public:
@@ -480,9 +482,7 @@ Ipv4NatDynamic::DoRun (void)
 {
 }
 
-/**
- * \Class for Test Suite
- */
+//Class for test suite
 class Ipv4NatTestSuite : public TestSuite
 {
 public:
