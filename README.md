@@ -30,7 +30,7 @@ The test suite can be executed by
 ./test.py --suite=ipv4-nat
 
 ### References:
-[1] Google Summer of Code (GSoC) ns-3 project on NAT (Link: https://www.nsnam.org/wiki/GSOC2012NetworkAddressTranslation)
+[1] Google Summer of Code (GSoC) ns-3 project on NAT (https://www.nsnam.org/wiki/GSOC2012NetworkAddressTranslation)
 
 [2] http://www.isi.edu/nsnam/ns/
 
